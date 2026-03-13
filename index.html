@@ -6444,14 +6444,14 @@ async function loadFromDB() {
       dbGet('gw_banque'),
       dbGet('gw_meta')
     ]);
-    if (pr   && pr.length)   products         = pr.map(r => ({id:r.id, name:r.name, cat:r.cat, price:+r.price, cost:+r.cost, stock:r.stock, min:r.min}));
-    if (sa   && sa.length)   sales            = sa.map(r => ({id:r.id, date:r.date, time:r.time, table:r.sale_table, items:r.items, total:+r.total, method:r.method, server:r.server}));
-    if (su   && su.length)   suppliers        = su.map(r => ({id:r.id, name:r.name, contact:r.contact, phone:r.phone, products:r.products}));
-    if (cl   && cl.length)   clients          = cl.map(r => ({id:r.id, name:r.name, phone:r.phone, balance:+r.balance, limit:+r.credit_limit}));
-    if (inv  && inv.length)  invoices         = inv.map(r => ({id:r.id, number:r.number, date:r.date, time:r.time, sale:r.sale, total:+r.total, tva:+r.tva, ttc:+r.ttc}));
-    if (pu   && pu.length)   purchases        = pu.map(r => ({id:r.id, date:r.date, dateRaw:r.date_raw, ref:r.ref, supplier:r.supplier, items:r.items, total:+r.total, paySrc:r.pay_src, by:r.by_user}));
-    if (ca   && ca.length)   caisseMovements  = ca.map(r => ({id:r.id, date:r.date, time:r.time, dateRaw:r.date_raw, type:r.type, categorie:r.categorie, libelle:r.libelle, montant:+r.montant, auto:r.auto, user:r.user_name, ref:r.ref}));
-    if (ba   && ba.length)   banqueMovements  = ba.map(r => ({id:r.id, date:r.date, time:r.time, dateRaw:r.date_raw, type:r.type, categorie:r.categorie, libelle:r.libelle, montant:+r.montant, auto:r.auto, user:r.user_name, ref:r.ref}));
+    if (pr   && pr.length)   products        = pr.map(r => ({id:r.id, name:r.name, cat:r.cat, price:+r.price, cost:+r.cost, stock:r.stock, min:r.min}));
+    if (sa   && sa.length)   sales           = sa.map(r => ({id:r.id, date:r.date, time:r.time, table:r.sale_table, items:r.items, total:+r.total, method:r.method, server:r.server}));
+    if (su   && su.length)   suppliers       = su.map(r => ({id:r.id, name:r.name, contact:r.contact, phone:r.phone, products:r.products}));
+    if (cl   && cl.length)   clients         = cl.map(r => ({id:r.id, name:r.name, phone:r.phone, balance:+r.balance, limit:+r.credit_limit}));
+    if (inv  && inv.length)  invoices        = inv.map(r => ({id:r.id, number:r.number, date:r.date, time:r.time, sale:r.sale, total:+r.total, tva:+r.tva, ttc:+r.ttc}));
+    if (pu   && pu.length)   purchases       = pu.map(r => ({id:r.id, date:r.date, dateRaw:r.date_raw, ref:r.ref, supplier:r.supplier, items:r.items, total:+r.total, paySrc:r.pay_src, by:r.by_user}));
+    if (ca   && ca.length)   caisseMovements = ca.map(r => ({id:r.id, date:r.date, time:r.time, dateRaw:r.date_raw, type:r.type, categorie:r.categorie, libelle:r.libelle, montant:+r.montant, auto:r.auto, user:r.user_name, ref:r.ref}));
+    if (ba   && ba.length)   banqueMovements = ba.map(r => ({id:r.id, date:r.date, time:r.time, dateRaw:r.date_raw, type:r.type, categorie:r.categorie, libelle:r.libelle, montant:+r.montant, auto:r.auto, user:r.user_name, ref:r.ref}));
     if (sett && sett.length) {
       const s = sett[0];
       settings = {name:s.name, addr:s.addr, phone:s.phone, tva:s.tva, currency:s.currency, invoiceCounter:s.invoice_counter,
@@ -6517,8 +6517,8 @@ function save() {
         dbUpsert('gw_settings',  [{id:1, name:settings.name, addr:settings.addr, phone:settings.phone, tva:settings.tva, currency:settings.currency, invoice_counter:settings.invoiceCounter,
           categories:settings.categories, logo_type:settings.logoType, logo_emoji:settings.logoEmoji, logo_image:settings.logoImage, logo_bg:settings.logoBg}]),
         dbUpsert('gw_purchases', purchases.map(p => ({id:p.id, date:p.date, date_raw:p.dateRaw, ref:p.ref, supplier:p.supplier, items:p.items, total:p.total, pay_src:p.paySrc, by_user:p.by}))),
-        dbUpsert('gw_caisse',    caisseMovements.map(m => ({id:m.id, date:m.date, time:m.time, date_raw:m.dateRaw, type:m.type, categorie:m.categorie, libelle:m.libelle, montant:m.montant, auto:m.auto||false, user_name:m.user||'', ref:m.ref||''}))),
-        dbUpsert('gw_banque',    banqueMovements.map(m => ({id:m.id, date:m.date, time:m.time, date_raw:m.dateRaw, type:m.type, categorie:m.categorie, libelle:m.libelle, montant:m.montant, auto:m.auto||false, user_name:m.user||'', ref:m.ref||''}))),
+        dbUpsert('gw_caisse',    caisseMovements.map(m => ({id:m.id, date:m.date, time:m.time, date_raw:m.dateRaw||'', type:m.type, categorie:m.categorie, libelle:m.libelle, montant:m.montant, auto:m.auto||false, user_name:m.user||'', ref:m.ref||''}))),
+        dbUpsert('gw_banque',    banqueMovements.map(m => ({id:m.id, date:m.date, time:m.time, date_raw:m.dateRaw||'', type:m.type, categorie:m.categorie, libelle:m.libelle, montant:m.montant, auto:m.auto||false, user_name:m.user||'', ref:m.ref||''}))),
         dbUpsert('gw_meta',      [{id:1, caisse_init:caisseSoldeInitial, banque_init:banqueSoldeInitial}])
       ]);
     } catch(e) { console.error('save() sync error', e); }
@@ -6603,12 +6603,19 @@ function doLogin() {
   if (sr) sr.textContent = found.role === 'gerant' ? '🛡️ Administrateur' : found.role === 'comptable' ? '📊 Comptable' : '👤 Utilisateur';
 
   applyNavVisibility();
-  renderAll();
-  updateDashboard();
   updateSidebarRoleDisplay();
-  setTimeout(initCharts, 100);
-  // Load latest data from Supabase
-  loadFromDB().then(() => { renderAll(); updateDashboard(); });
+  // Afficher un écran de chargement le temps que Supabase réponde
+  showDBStatus('loading');
+  loadFromDB().then(() => {
+    renderAll();
+    updateDashboard();
+    setTimeout(initCharts, 100);
+  }).catch(() => {
+    // Supabase inaccessible → afficher quand même avec localStorage
+    renderAll();
+    updateDashboard();
+    setTimeout(initCharts, 100);
+  });
 }
 
 function logout() {
